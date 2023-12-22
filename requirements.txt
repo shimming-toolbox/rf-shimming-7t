@@ -1,3 +1,4 @@
 datalad
+#matplotlib
 notebook
-tabulate
+#tabulate
