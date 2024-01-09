@@ -1,0 +1,4 @@
+datalad
+#matplotlib
+notebook
+#tabulate
