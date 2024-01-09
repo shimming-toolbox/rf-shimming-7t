@@ -1,3 +1,9 @@
+# Dataset
+ds004906
+
+# Visual Studio
+.vscode
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
