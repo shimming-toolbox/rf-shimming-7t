@@ -1,5 +1,4 @@
 datalad
-json
 matplotlib
 nibabel
 notebook
