@@ -1,4 +1,9 @@
 datalad
-#matplotlib
+json
+matplotlib
+nibabel
 notebook
-#tabulate
+numpy
+pandas
+scipy
+statsmodels
