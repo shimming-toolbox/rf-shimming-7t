@@ -1,6 +1,9 @@
 # Dataset
 ds004906
 
+# Apple files
+.DS_Store
+
 # Visual Studio
 .vscode
 
