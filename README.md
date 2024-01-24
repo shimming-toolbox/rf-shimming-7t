@@ -7,7 +7,7 @@ Reproducible Notebook for the paper "RF shimming in the cervical spinal cord at 
 
 ## Run with Google Colab
 
-Click on the badge "Open in Colab" ☝️
+Click on the badge "Open in Colab" ☝️. The notebook takes about 2 hours to run on Google Colab (without a paid subscription that gives access to more powerful resource).
 
 ## Run with Jupyter Notebook
 
