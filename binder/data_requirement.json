@@ -1,5 +1,5 @@
 { 
-    "src": "https://drive.google.com/uc?id=1OY-lEDIqcSJY_Mymo6Fd8vfhY5L7phXr",
-    "dst": "../data",
-    "projectName": "rf-shimming-7t"
+    "src": "https://github.com/shimming-toolbox/rf-shimming-7t-neurolibre/releases/download/v1/ds004906.zip",
+    "dst": "../",
+    "projectName": "data"
 }
