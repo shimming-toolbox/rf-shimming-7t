@@ -1,7 +1,7 @@
 # rf-shimming-7t
 
 [![DOI Badge](https://img.shields.io/badge/DOI-10.18112%2Fopenneuro.ds004906-blue)](https://openneuro.org/datasets/ds004906)
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/shimming-toolbox/rf-shimming-7t/blob/main/data_processing.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/shimming-toolbox/rf-shimming-7t/blob/mb/neurolibre/data_processing.ipynb)
 
 Reproducible Notebook for the paper "RF shimming in the cervical spinal cord at 7T"
 
