@@ -1,3 +1,7 @@
+jupyter-book==0.13.0
+plotly
+seaborn
+markdown
 datalad
 matplotlib
 nibabel
@@ -6,3 +10,4 @@ numpy
 pandas
 scipy
 statsmodels
+repo2data
