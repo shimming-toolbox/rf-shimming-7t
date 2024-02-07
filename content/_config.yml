@@ -1,0 +1,37 @@
+# Book settings
+# Learn more at https://jupyterbook.org/customize/config.html
+
+title: RF Shimming 7T
+logo: logo.png
+
+# Force re-execution of notebooks on each build.
+# See https://jupyterbook.org/content/execute.html
+execute:
+  execute_notebooks: force
+
+launch_buttons:
+  notebook_interface: "jupyterlab"
+
+# Information about where the book exists on the web
+repository:
+  url: https://github.com/shimming-toolbox/rf-shimming-7t-neurolibre  # Online location of your book
+  path_to_book: content  # Optional path to your book, relative to the repository root
+  branch: main  # Which branch of the repository should be used when creating links (optional)
+
+only_build_toc_files: true
+
+execute:
+  timeout: 600
+
+sphinx:
+  local_extensions          :   # A list of local extensions to load by sphinx specified by "name: path" items
+  recursive_update          : false # A boolean indicating whether to overwrite the Sphinx config (true) or recursively update
+  config                    :   # key-value pairs to directly over-ride the Sphinx configuration
+    bibtex_reference_style: author_year
+    bibtex_default_style: plain
+    bibtex_tooltips: true
+    html_static_path: ['_static']
+    html_css_files: ['custom.css']
+
+bibtex_bibfiles:
+  - ../paper.bib

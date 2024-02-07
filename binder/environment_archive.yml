@@ -1,0 +1,26 @@
+name: notebook
+
+channels:
+  - default
+  - conda-forge
+
+dependencies:
+ - pip
+ - matplotlib
+ - nibabel
+ - numpy
+ - pandas
+ - scipy
+ - statsmodels
+ - plotly
+ - pandas
+ - markdown
+ - wget
+ - jupyterlab-mathjax3
+ - osfclient
+ - pip:
+   - jupyter-book==0.13.0
+   - repo2data
+   - datalad-installer
+   - pybids
+   - yes

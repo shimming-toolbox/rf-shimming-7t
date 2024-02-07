@@ -1,0 +1,52 @@
+p {
+  text-align: justify;
+}
+a {
+  color: #870000!important;
+}
+a:hover {
+  color: brick!important;
+}
+a:visited {
+  color: #6f42c1!important;
+}
+body, h1, h2, h3, h4, h5 {
+    font-family: 'STIX Two Text';
+}
+h1 {
+    color: #342727!important;
+}
+.caption {
+    text-align:justify;
+    line-height:1.25;
+    font-size:80%
+}
+
+#site-navigation {
+    display: none;
+}
+
+#main-content{
+    margin: 0 auto;
+}
+
+
+.fa, .far, .fas {
+    color: red;
+}
+
+.header-article::after{
+  content: url('https://neurolibre.org/assets/joss2-b7ea8dd1f24ce2b0825db17e3495576253ba4c64df3384a66354713d76c40a75.svg');
+  width: 150px; 
+  height: 80px;
+  position: relative;
+  right: 10px;
+}
+
+.header-article::before{
+  content: url('https://raw.githubusercontent.com/neurolibre/brand/b5e10e051a0059824ca2f4204e1288927e551d49/svg/neurolibre_logo.svg');
+  width: 33px; 
+  height: 33px;
+  position: absolute;
+  left: 10px;
+}
