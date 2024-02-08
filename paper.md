@@ -8,7 +8,7 @@ tags:
   - high field
   - 7T
 authors:
-   - name: Daniel Papp
+  - name: Daniel Papp
     orcid: 0000-0003-1481-1413
     affiliation: 1
   - name: Kyle M. Gilbert
