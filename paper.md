@@ -9,31 +9,32 @@ tags:
   - 7T
 authors:
    - name: Daniel Papp
-    orcid: 
+    orcid: 0000-0003-1481-1413
     affiliation: 1
   - name: Kyle M. Gilbert
-    orcid: 
+    orcid: 0000-0003-3026-5686
     affiliation: "2, 3"
   - name: Gaspard Cereza
-    orcid: 
     affiliation: 1
   - name: Alexandre D’Astous
-    orcid: 
+    orcid: 0000-0003-0381-7334
+    affiliation: 1
+  - name: Nibardo Lopez-Rios
+    orcid: 0000-0002-4791-8260
     affiliation: 1
   - name: Mathieu Boudreau
-    orcid: 
+    orcid: 0000-0002-7726-4456
     affiliation: 1
   - name: Marcus Couch
-    orcid: 
+    orcid: 0000-0002-2732-8941
     affiliation: 4
   - name: Pedram Yazdanbakhsh
-    orcid: 
+    orcid: 0000-0003-4456-5997
     affiliation: 5
   - name: Robert L. Barry
-    orcid: 
     affiliation: "6, 7, 8"
   - name: Eva Alonso Ortiz
-    orcid: 
+    orcid: 0000-0001-6590-7234
     affiliation: 1
   - name: Julien Cohen-Adad
     orcid: 0000-0003-3662-9532
