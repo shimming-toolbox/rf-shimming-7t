@@ -2,12 +2,15 @@
 set -e 
 
 touch ~/.bashrc
+
 cd content
 repo2data -r ../binder/data_requirement.json
 cd ..
+
 git clone https://github.com/spinalcordtoolbox/spinalcordtoolbox ~/content/sct
 cd ~/content/sct
 yes | ./install_sct
+
 echo 'export PATH=~/content/sct/bin:$PATH' >> ~/.bashrc
 echo 'export MPLBACKEND='Agg'' >> ~/.bashrc
 

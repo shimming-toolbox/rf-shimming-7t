@@ -1,5 +1,5 @@
 { 
     "src": "https://github.com/shimming-toolbox/rf-shimming-7t-neurolibre/releases/download/v1/ds004906.zip",
-    "dst": "../",
-    "projectName": "data"
+    "dst": "../data",
+    "projectName": "rf-shimming-7t"
 }
