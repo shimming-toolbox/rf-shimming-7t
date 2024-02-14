@@ -12,6 +12,14 @@ Click on the badge "Open in Colab" ☝️. The notebook takes about 2 hours to r
 
 ## Run in a Docker container (NeuroLibre, MyBinder, repo2ocker)
 
+### repo2docker
+
+To run locally on your computer, you must first have Docker installed, running, and have created an account. Follow the instructions [here](https://www.docker.com/get-started/).
+
+Then, you need to install [repo2docker](https://github.com/jupyterhub/repo2docker). Install via pip: `pip install jupyter-repo2docker`
+
+To launch a Docker session from this repo, run `repo2docker --ref main https://www.github.com/shimming-toolbox/rf-shimming-7t`. After it's completed, it will provie you with a weblink, copy and open this link in a browser to open the Jupyter Notebook session.
+
 ### NeuroLibre
 
 > [!NOTE]
@@ -26,14 +34,6 @@ Click on the badge "Open in Colab" ☝️. The notebook takes about 2 hours to r
 Click on the badge "launch binder" ☝️. This environment setup downloads the data and the output of notebook previously run on Google Colab, and by default the notebook will only run the analysis cells (i.e. not the SCT-related commands).
 
 If you'd like to re-run the processing from scratch, change the `notebook = 'neurolibre-figures'` line in the first cell to `notebook = 'neurolibre-clean'`. This will delete the processed files and then re-run the entire processing pipeline. Note that some cells take a lot of RAM, and may fail on certain systems.
-
-### repo2docker
-
-To run locally on your computer, you must first have Docker installed, running, and have created an account. Follow the instructions [here](https://www.docker.com/get-started/).
-
-Then, you need to install [repo2docker](https://github.com/jupyterhub/repo2docker). Install via pip: `pip install jupyter-repo2docker`
-
-To launch a Docker session from this repo, run `repo2docker --ref main https://www.github.com/shimming-toolbox/rf-shimming-7t`. After it's completed, it will provie you with a weblink, copy and open this link in a browser to open the Jupyter Notebook session.
 
 ## Run locally with Jupyter Notebook
 
