@@ -1,8 +1,8 @@
 # rf-shimming-7t
 
 [![DOI Badge](https://img.shields.io/badge/DOI-10.18112%2Fopenneuro.ds004906-blue)](https://openneuro.org/datasets/ds004906)
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/shimming-toolbox/rf-shimming-7t/blob/mb/neurolibre/content/index.ipynb)
-[![launch binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/shimming-toolbox/rf-shimming-7t/mb/neurolibre?labpath=content%2Findex.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/shimming-toolbox/rf-shimming-7t/blob/main/content/index.ipynb)
+[![launch binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/shimming-toolbox/rf-shimming-7t/main?labpath=content%2Findex.ipynb)
 
 Reproducible Notebook for the paper "RF shimming in the cervical spinal cord at 7T"
 
@@ -33,7 +33,7 @@ To run locally on your computer, you must first have Docker installed, running, 
 
 Then, you need to install [repo2docker](https://github.com/jupyterhub/repo2docker). Install via pip: `pip install jupyter-repo2docker`
 
-To launch a Docker session from this repo, run `repo2docker --ref mb/neurolibre https://www.github.com/shimming-toolbox/rf-shimming-7t`. After it's completed, it will provie you with a weblink, copy and open this link in a browser to open the Jupyter Notebook session.
+To launch a Docker session from this repo, run `repo2docker --ref main https://www.github.com/shimming-toolbox/rf-shimming-7t`. After it's completed, it will provie you with a weblink, copy and open this link in a browser to open the Jupyter Notebook session.
 
 ## Run locally with Jupyter Notebook
 
@@ -42,7 +42,7 @@ Install [Spinal Cord Toolbox](https://spinalcordtoolbox.com/user_section/install
 Clone this repository
 ~~~
 git clone https://github.com/shimming-toolbox/rf-shimming-7t.git
-git checkout mb/neurolibre
+git checkout main
 cd rf-shimming-7t
 ~~~
 

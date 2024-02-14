@@ -139,6 +139,7 @@ _build/
 content/data/
 content/neuromod-anat-brain-qmri/
 content/spinalcord_results/
+data/
 
 # Cloned repos
 content/analysis*
