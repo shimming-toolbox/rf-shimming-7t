@@ -54,7 +54,7 @@ affiliations:
    index: 6
  - name: Harvard Medical School, Boston, MA, USA
    index: 7
- - name: Harvard-Massachusetts Institute of Technology Health Sciences & Technology, Cambridge, MA, USA
+ - name: Harvard-Massachusetts Institute of Technology Health Sciences and Technology, Cambridge, MA, USA
    index: 8
  - name: Mila - Quebec AI Institute, Montreal, QC, Canada
    index: 9
