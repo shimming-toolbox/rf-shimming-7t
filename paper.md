@@ -74,7 +74,7 @@ The results indicate significant improvements in B1+ efficiency and cerebrospina
 
 The study's findings highlight the potential of RF shimming to advance 7T MRI's clinical utility for central nervous system imaging by enabling more homogenous and efficient spinal cord imaging. Additionally, the research incorporates a reproducible Jupyter Notebook, enhancing the study's transparency and facilitating peer verification. By also making the data openly accessible on OpenNeuro, we ensure that the scientific community can further explore, validate, and build upon our findings, contributing to the collective advancement in high-resolution imaging techniques.
 
-![**Figure 1.** Overview of the RF shimming procedure. The top panel shows the RF coil used for the experiments, alongside the Tx coil geometry and the electromagnetic simulation results (on Gustav model) yielding the CP mode used for this coil. The bottom panel shows the RF shimming procedure (with approximate duration). First, GRE and tfl_rfmap scans are acquired (4min30s). Second, these images are transferred via ethernet socket from the MRI console onto a separate laptop running Shimming Toolbox and SCT (<1s). Third, the spinal cord is automatically segmented to produce a mask that is resampled into the space of the individual coil magnitude and phase images of the tfl_rfmap scan (~5s). Fourth, the RF shim weights are calculated according to the defined constraints for each shim scenario (1min total).
+![Overview of the RF shimming procedure. The top panel shows the RF coil used for the experiments, alongside the Tx coil geometry and the electromagnetic simulation results (on Gustav model) yielding the CP mode used for this coil. The bottom panel shows the RF shimming procedure (with approximate duration). First, GRE and tfl_rfmap scans are acquired (4min30s). Second, these images are transferred via ethernet socket from the MRI console onto a separate laptop running Shimming Toolbox and SCT (<1s). Third, the spinal cord is automatically segmented to produce a mask that is resampled into the space of the individual coil magnitude and phase images of the tfl_rfmap scan (~5s). Fourth, the RF shim weights are calculated according to the defined constraints for each shim scenario (1min total).
 \label{fig:overview}](featured.png)
 
 # Statement of need
@@ -227,10 +227,11 @@ Prepare RF shimming mask for figure.
 
 Create figure of B1+ maps.
 
-![**Figure 2.** B1+ efficiency for one participant (sub-05) across all seven RF shimming conditions. The top left panel shows the tfl_b1map magnitude image with an overlay of the mask that was used to perform RF shimming. Text inserts show the mean (in nT/V) and CoV (in %) of B1+ efficiency along the spinal cord between C3 and T2.
+![B1+ efficiency for one participant (sub-05) across all seven RF shimming conditions. The top left panel shows the tfl_b1map magnitude image with an overlay of the mask that was used to perform RF shimming. Text inserts show the mean (in nT/V) and CoV (in %) of B1+ efficiency along the spinal cord between C3 and T2.
 \label{fig:fig2}](fig2_b1plus_map.png)
 
-![**Figure 3.** B1+ efficiency (A) and CSF/Cord signal ratio from the GRE scan (B) across subjects and across different RF shimming conditions. Data were measured in the spinal cord from C3 to T2 vertebral levels. To match the x-ticks across subjects, the C2-C3 and the T2-T3 intervertebral discs of each subject were aligned with that of the PAM50 template [@DELEENER2018170], and the curves were linearly scaled.
+
+![B1+ efficiency (A) and CSF/Cord signal ratio from the GRE scan (B) across subjects and across different RF shimming conditions. Data were measured in the spinal cord from C3 to T2 vertebral levels. To match the x-ticks across subjects, the C2-C3 and the T2-T3 intervertebral discs of each subject were aligned with that of the PAM50 template [@DELEENER2018170], and the curves were linearly scaled.
 \label{fig:fig3}](fig3_plotly.png)
 
 
