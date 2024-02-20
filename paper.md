@@ -232,7 +232,7 @@ Create figure of B1+ maps.
 
 
 ![B1+ efficiency (A) and CSF/Cord signal ratio from the GRE scan (B) across subjects and across different RF shimming conditions. Data were measured in the spinal cord from C3 to T2 vertebral levels. To match the x-ticks across subjects, the C2-C3 and the T2-T3 intervertebral discs of each subject were aligned with that of the PAM50 template [@DELEENER2018170], and the curves were linearly scaled.
-\label{fig:fig3}](fig3_plotly.png){height=80%}
+\label{fig:fig3}](fig3_plotly.png){height=90%}
 
 
 # Acknowledgements
