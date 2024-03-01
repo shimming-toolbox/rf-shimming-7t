@@ -1,8 +1,8 @@
 # rf-shimming-7t
 
 [![DOI Badge](https://img.shields.io/badge/DOI-10.18112%2Fopenneuro.ds004906-blue)](https://openneuro.org/datasets/ds004906)
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/shimming-toolbox/rf-shimming-7t/blob/main/content/index.ipynb)
-[![launch binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/shimming-toolbox/rf-shimming-7t/main?labpath=content%2Findex.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/shimming-toolbox/rf-shimming-7t/blob/r20240214/content/index.ipynb)
+[![launch binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/shimming-toolbox/rf-shimming-7t/r20240214?labpath=content%2Findex.ipynb)
 
 Reproducible Notebook for the paper "RF shimming in the cervical spinal cord at 7T"
 
@@ -42,7 +42,7 @@ Install [Spinal Cord Toolbox](https://spinalcordtoolbox.com/user_section/install
 Clone this repository
 ~~~
 git clone https://github.com/shimming-toolbox/rf-shimming-7t.git
-git checkout main
+git checkout r20240214
 cd rf-shimming-7t
 ~~~
 
