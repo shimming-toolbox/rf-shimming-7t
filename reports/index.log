@@ -1,0 +1,103 @@
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/nbclient/client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/asyncio/base_events.py", line 616, in run_until_complete
+    return future.result()
+  File "/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/nbclient/client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# Download data and define path variables
+
+# Google Colab-Only
+if notebook=='colab':
+    !datalad install https://github.com/OpenNeuroDatasets/ds004906.git
+    os.chdir("ds004906")
+    !datalad get . # uncomment for production
+    # !datalad get sub-01/  # debugging
+    # Get derivatives containing manual labels
+    !datalad get derivatives
+    path_data = os.getcwd()
+
+if notebook!='colab':
+
+    if notebook=='repo2docker-figures' or notebook=='repo2docker-clean':
+        !repo2data -r ../binder/data_requirement.json
+
+    # Copy data from NeuroLibre servers to image to gain write permissions
+    clean_dir = os.path.join(os.getenv("HOME"), "clean")
+    if os.path.exists(clean_dir) and os.path.isdir(clean_dir):
+        shutil.rmtree(clean_dir)
+    os.mkdir(clean_dir)
+    os.mkdir(os.path.join(clean_dir, "data"))
+
+    # Source path
+    src = os.path.join(os.getenv("HOME"),"data/rf-shimming-7t")
+
+    # Destination path  
+    dest = os.path.join(os.getenv("HOME"), "clean/data/rf-shimming-7t")
+
+    # Copy the content of source to destination  
+    destination = shutil.copytree(src, dest)
+    os.chdir(os.path.join(os.getenv("HOME"),"clean/data/rf-shimming-7t/ds004906"))
+        
+    # Assumes data/rf-shimming-7t is found at $HOME
+    path_data = os.path.join(os.getenv("HOME"),"clean/data/rf-shimming-7t/ds004906")
+
+    if notebook=='neurolibre-clean' or notebook=='repo2docker-clean':
+        flist = open('cleanup.txt', 'r')
+        for f in flist:
+            fname = f.rstrip('\n')
+            fname = Path(os.getcwd()) / Path(fname)
+
+            # or, if you get rid of os.chdir(path) above,
+            # fname = os.path.join(path, f.rstrip())
+            if os.path.isfile(fname): # this makes the code more robust
+                print('Removing file: ' + str(fname))
+                os.remove(fname)
+            elif os.path.isdir(fname):
+                print('Removing directory: ' + str(fname))
+                rmtree(fname)
+
+        # also, don't forget to close the text file:
+        flist.close()
+
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mFileNotFoundError[0m                         Traceback (most recent call last)
+Cell [0;32mIn[5], line 32[0m
+[1;32m     29[0m dest [38;5;241m=[39m os[38;5;241m.[39mpath[38;5;241m.[39mjoin(os[38;5;241m.[39mgetenv([38;5;124m"[39m[38;5;124mHOME[39m[38;5;124m"[39m), [38;5;124m"[39m[38;5;124mclean/data/rf-shimming-7t[39m[38;5;124m"[39m)
+[1;32m     31[0m [38;5;66;03m# Copy the content of source to destination  [39;00m
+[0;32m---> 32[0m destination [38;5;241m=[39m [43mshutil[49m[38;5;241;43m.[39;49m[43mcopytree[49m[43m([49m[43msrc[49m[43m,[49m[43m [49m[43mdest[49m[43m)[49m
+[1;32m     33[0m os[38;5;241m.[39mchdir(os[38;5;241m.[39mpath[38;5;241m.[39mjoin(os[38;5;241m.[39mgetenv([38;5;124m"[39m[38;5;124mHOME[39m[38;5;124m"[39m),[38;5;124m"[39m[38;5;124mclean/data/rf-shimming-7t/ds004906[39m[38;5;124m"[39m))
+[1;32m     35[0m [38;5;66;03m# Assumes data/rf-shimming-7t is found at $HOME[39;00m
+
+File [0;32m/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/shutil.py:555[0m, in [0;36mcopytree[0;34m(src, dst, symlinks, ignore, copy_function, ignore_dangling_symlinks, dirs_exist_ok)[0m
+[1;32m    518[0m [38;5;250m[39m[38;5;124;03m"""Recursively copy a directory tree and return the destination directory.[39;00m
+[1;32m    519[0m 
+[1;32m    520[0m [38;5;124;03mdirs_exist_ok dictates whether to raise an exception in case dst or any[39;00m
+[0;32m   (...)[0m
+[1;32m    552[0m 
+[1;32m    553[0m [38;5;124;03m"""[39;00m
+[1;32m    554[0m sys[38;5;241m.[39maudit([38;5;124m"[39m[38;5;124mshutil.copytree[39m[38;5;124m"[39m, src, dst)
+[0;32m--> 555[0m [38;5;28;01mwith[39;00m [43mos[49m[38;5;241;43m.[39;49m[43mscandir[49m[43m([49m[43msrc[49m[43m)[49m [38;5;28;01mas[39;00m itr:
+[1;32m    556[0m     entries [38;5;241m=[39m [38;5;28mlist[39m(itr)
+[1;32m    557[0m [38;5;28;01mreturn[39;00m _copytree(entries[38;5;241m=[39mentries, src[38;5;241m=[39msrc, dst[38;5;241m=[39mdst, symlinks[38;5;241m=[39msymlinks,
+[1;32m    558[0m                  ignore[38;5;241m=[39mignore, copy_function[38;5;241m=[39mcopy_function,
+[1;32m    559[0m                  ignore_dangling_symlinks[38;5;241m=[39mignore_dangling_symlinks,
+[1;32m    560[0m                  dirs_exist_ok[38;5;241m=[39mdirs_exist_ok)
+
+[0;31mFileNotFoundError[0m: [Errno 2] No such file or directory: '/home/runner/data/rf-shimming-7t'
+FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/data/rf-shimming-7t'
+
