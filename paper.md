@@ -130,9 +130,9 @@ ds004906
 
 # 2. Overview of processing pipeline
 
-During the data acquisition stage, RF shimming was done using the [Shimming Toolbox](https://github.com/shimming-toolbox/shimming-toolbox) {cite:p}`DAstous2023` during the acquisition stage.
+During the data acquisition stage, RF shimming was done using the [Shimming Toolbox](https://github.com/shimming-toolbox/shimming-toolbox) [@DAstous2023] during the acquisition stage.
 
-The post-processing pipeline uses the [Spinal Cord Toolbox](https://spinalcordtoolbox.com) {cite:p}`DeLeener201724`.
+The post-processing pipeline uses the [Spinal Cord Toolbox](https://spinalcordtoolbox.com) [@DeLeener201724].
 
 For each subject:
 
@@ -151,7 +151,7 @@ For each subject:
 
 # 3. Requirements
 
-* Install [Spinal Cord Toolbox](https://spinalcordtoolbox.com/user_section/installation.html) {cite:p}`DeLeener201724`, eg
+* Install [Spinal Cord Toolbox](https://spinalcordtoolbox.com/user_section/installation.html) [@DeLeener201724], eg
 
 ```shell
 # Install SCT ⏳
@@ -187,45 +187,45 @@ In a Python shell, import the necessary modules and define variables.
 
 # 5. Process anat/T2starw (GRE)
 
-Run segmentation on GRE scan.
+1. Run segmentation on GRE scan.
 
-Copy CSF masks from the derivatives folder.
+2. Copy CSF masks from the derivatives folder.
 
-For more details about how these masks were created, see: [https://github.com/shimming-toolbox/rf-shimming-7t/issues/67](https://github.com/shimming-toolbox/rf-shimming-7t/issues/67).
+> For more details about how these masks were created, see: [https://github.com/shimming-toolbox/rf-shimming-7t/issues/67](https://github.com/shimming-toolbox/rf-shimming-7t/issues/67).
 
-Crop GRE scan for faster processing and better registration results.
+3. Crop GRE scan for faster processing and better registration results.
 
-Label vertebrae on GRE scan.
+4. Label vertebrae on GRE scan.
 
-Register *_T2starw to CoV_T2starw.
+5. Register *_T2starw to CoV_T2starw.
 
-Extract the signal intensity on the GRE scan within the spinal cord between levels C3 and T2 (included), which correspond to the region where RF shimming was prescribed.
+6. Extract the signal intensity on the GRE scan within the spinal cord between levels C3 and T2 (included), which correspond to the region where RF shimming was prescribed.
 
-Prepare data for figure  of CSF/SC signal ratio from T2starw scan.
+7. Prepare data for figure  of CSF/SC signal ratio from T2starw scan.
 
-Perform statistics.
+8. Perform statistics.
 
 # 6. Process fmap/TFL (flip angle maps)
 
-Register TFL flip angle maps to the GRE scan.
+1. Register TFL flip angle maps to the GRE scan.
 
-Warping spinal cord segmentation and vertebral level to each flip angle map.
+2. Warping spinal cord segmentation and vertebral level to each flip angle map.
 
-Convert the flip angle maps to B1+ efficiency maps [nT/V] (inspired by code from Kyle Gilbert).
+3. Convert the flip angle maps to B1+ efficiency maps [nT/V] (inspired by code from Kyle Gilbert).
 
-The approach consists in calculating the B1+ efficiency using a 1ms, pi-pulse at the acquisition voltage, then scale the efficiency by the ratio of the measured flip angle to the requested flip angle in the pulse sequence.
+4. The approach consists in calculating the B1+ efficiency using a 1ms, pi-pulse at the acquisition voltage, then scale the efficiency by the ratio of the measured flip angle to the requested flip angle in the pulse sequence.
 
-Extract B1+ value along the spinal cord between levels C3 and T2 (included).
+5. Extract B1+ value along the spinal cord between levels C3 and T2 (included).
 
-Prepare data for figure of B1+ values along the spinal cord across shim methods.
+6. Prepare data for figure of B1+ values along the spinal cord across shim methods.
 
-Perform statistics.
+7. Perform statistics.
 
 # 7. Paper figures
 
-Prepare RF shimming mask for figure.
+1. Prepare RF shimming mask for figure.
 
-Create figure of B1+ maps.
+2. Create figure of B1+ maps.
 
 ![B1+ efficiency for one participant (sub-05) across all seven RF shimming conditions. The top left panel shows the tfl_b1map magnitude image with an overlay of the mask that was used to perform RF shimming. Text inserts show the mean (in nT/V) and CoV (in %) of B1+ efficiency along the spinal cord between C3 and T2.
 \label{fig:fig2}](fig2_b1plus_map.png)
