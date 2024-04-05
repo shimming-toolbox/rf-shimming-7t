@@ -541,6 +541,25 @@ repo2data<span class="w"> </span>-r<span class="w"> </span>../binder/data_requir
 <span class="c1"># Data storage for Plotly</span>
 <span class="n">t2_data_plotly</span> <span class="o">=</span> <span class="p">{}</span>
 
+<span class="c1"># Initialize variables to find global min and max values</span>
+<span class="n">global_min</span><span class="p">,</span> <span class="n">global_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+
+<span class="c1"># First loop: find global min and max across all subjects and shim modes</span>
+<span class="k">for</span> <span class="n">subject</span> <span class="ow">in</span> <span class="n">subjects</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">shim_mode</span> <span class="ow">in</span> <span class="n">shim_modes</span><span class="p">:</span>
+        <span class="n">file_csv_sc</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_results</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">subject</span><span class="si">}</span><span class="s2">_acq-</span><span class="si">{</span><span class="n">shim_mode</span><span class="si">}</span><span class="s2">_T2starw_label-SC.csv&quot;</span><span class="p">)</span>
+        <span class="n">file_csv_csf</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_results</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">subject</span><span class="si">}</span><span class="s2">_acq-</span><span class="si">{</span><span class="n">shim_mode</span><span class="si">}</span><span class="s2">_T2starw_label-CSF.csv&quot;</span><span class="p">)</span>
+        <span class="n">df_sc</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_csv_sc</span><span class="p">)</span>
+        <span class="n">df_csf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_csv_csf</span><span class="p">)</span>
+        <span class="n">data_sc_smoothed</span> <span class="o">=</span> <span class="n">smooth_data</span><span class="p">(</span><span class="n">df_sc</span><span class="p">[</span><span class="s1">&#39;WA()&#39;</span><span class="p">])</span>
+        <span class="n">data_csf_smoothed</span> <span class="o">=</span> <span class="n">smooth_data</span><span class="p">(</span><span class="n">df_csf</span><span class="p">[</span><span class="s1">&#39;WA()&#39;</span><span class="p">])</span>
+        <span class="n">data_sc_csf_ratio</span> <span class="o">=</span> <span class="n">data_csf_smoothed</span> <span class="o">/</span> <span class="n">data_sc_smoothed</span>
+        <span class="n">local_min</span><span class="p">,</span> <span class="n">local_max</span> <span class="o">=</span> <span class="n">data_sc_csf_ratio</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">data_sc_csf_ratio</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">local_min</span> <span class="o">&lt;</span> <span class="n">global_min</span><span class="p">:</span>
+            <span class="n">global_min</span> <span class="o">=</span> <span class="n">local_min</span>
+        <span class="k">if</span> <span class="n">local_max</span> <span class="o">&gt;</span> <span class="n">global_max</span><span class="p">:</span>
+            <span class="n">global_max</span> <span class="o">=</span> <span class="n">local_max</span>
+
 <span class="c1"># Iterate over each subject and create a subplot</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">subject</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">subjects</span><span class="p">):</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
@@ -595,6 +614,9 @@ repo2data<span class="w"> </span>-r<span class="w"> </span>../binder/data_requir
         <span class="n">secax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">label_positions</span><span class="p">)</span>
         <span class="n">secax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">vertebral_levels</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">font_size</span><span class="o">-</span><span class="mi">4</span><span class="p">)</span>
         <span class="n">secax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Hide tick marks</span>
+
+    <span class="c1"># Set y-axis to the same scale for all panels</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">global_min</span><span class="p">,</span> <span class="n">global_max</span><span class="p">)</span>
 
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">custom_xticks</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="s1">&#39;&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">custom_xticks</span><span class="p">))</span>
@@ -816,6 +838,25 @@ repo2data<span class="w"> </span>-r<span class="w"> </span>../binder/data_requir
 <span class="c1"># Data storage for Plotly</span>
 <span class="n">b1_data_plotly</span> <span class="o">=</span> <span class="p">{}</span>
 
+<span class="c1"># Initialize variables to find global min and max values</span>
+<span class="n">global_min</span><span class="p">,</span> <span class="n">global_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+
+<span class="c1"># First loop: find global min and max across all subjects and shim modes</span>
+<span class="k">for</span> <span class="n">subject</span> <span class="ow">in</span> <span class="n">subjects</span><span class="p">:</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_data</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="s2">&quot;fmap&quot;</span><span class="p">))</span>
+    
+    <span class="k">for</span> <span class="n">shim_mode</span> <span class="ow">in</span> <span class="n">shim_modes</span><span class="p">:</span>
+        <span class="n">file_csv</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_results</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">subject</span><span class="si">}</span><span class="s2">_TB1map_</span><span class="si">{</span><span class="n">shim_mode</span><span class="si">}</span><span class="s2">.csv&quot;</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_csv</span><span class="p">)</span>
+        <span class="n">wa_data</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;WA()&#39;</span><span class="p">]</span>
+        
+        <span class="c1"># Check global min and max</span>
+        <span class="n">local_min</span><span class="p">,</span> <span class="n">local_max</span> <span class="o">=</span> <span class="n">wa_data</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">wa_data</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">local_min</span> <span class="o">&lt;</span> <span class="n">global_min</span><span class="p">:</span>
+            <span class="n">global_min</span> <span class="o">=</span> <span class="n">local_min</span>
+        <span class="k">if</span> <span class="n">local_max</span> <span class="o">&gt;</span> <span class="n">global_max</span><span class="p">:</span>
+            <span class="n">global_max</span> <span class="o">=</span> <span class="n">local_max</span>
+
 <span class="c1"># Iterate over each subject and create a subplot</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">subject</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">subjects</span><span class="p">):</span>
     
@@ -865,6 +906,9 @@ repo2data<span class="w"> </span>-r<span class="w"> </span>../binder/data_requir
         <span class="n">secax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">label_positions</span><span class="p">)</span>
         <span class="n">secax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">vertebral_levels</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">font_size</span><span class="o">-</span><span class="mi">4</span><span class="p">)</span>
         <span class="n">secax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Hide tick marks</span>
+
+    <span class="c1"># Set y-axis to the same scale for all panels</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">global_min</span><span class="p">,</span> <span class="n">global_max</span><span class="p">)</span>
 
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">custom_xticks</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="s1">&#39;&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">custom_xticks</span><span class="p">))</span>
