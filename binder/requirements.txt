@@ -1,4 +1,5 @@
 jupyter-book==0.13.0
+lxml_html_clean
 plotly
 seaborn
 markdown
