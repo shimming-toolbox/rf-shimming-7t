@@ -541,25 +541,6 @@ repo2data<span class="w"> </span>-r<span class="w"> </span>../binder/data_requir
 <span class="c1"># Data storage for Plotly</span>
 <span class="n">t2_data_plotly</span> <span class="o">=</span> <span class="p">{}</span>
 
-<span class="c1"># Initialize variables to find global min and max values</span>
-<span class="n">global_min</span><span class="p">,</span> <span class="n">global_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
-
-<span class="c1"># First loop: find global min and max across all subjects and shim modes</span>
-<span class="k">for</span> <span class="n">subject</span> <span class="ow">in</span> <span class="n">subjects</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">shim_mode</span> <span class="ow">in</span> <span class="n">shim_modes</span><span class="p">:</span>
-        <span class="n">file_csv_sc</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_results</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">subject</span><span class="si">}</span><span class="s2">_acq-</span><span class="si">{</span><span class="n">shim_mode</span><span class="si">}</span><span class="s2">_T2starw_label-SC.csv&quot;</span><span class="p">)</span>
-        <span class="n">file_csv_csf</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_results</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">subject</span><span class="si">}</span><span class="s2">_acq-</span><span class="si">{</span><span class="n">shim_mode</span><span class="si">}</span><span class="s2">_T2starw_label-CSF.csv&quot;</span><span class="p">)</span>
-        <span class="n">df_sc</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_csv_sc</span><span class="p">)</span>
-        <span class="n">df_csf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_csv_csf</span><span class="p">)</span>
-        <span class="n">data_sc_smoothed</span> <span class="o">=</span> <span class="n">smooth_data</span><span class="p">(</span><span class="n">df_sc</span><span class="p">[</span><span class="s1">&#39;WA()&#39;</span><span class="p">])</span>
-        <span class="n">data_csf_smoothed</span> <span class="o">=</span> <span class="n">smooth_data</span><span class="p">(</span><span class="n">df_csf</span><span class="p">[</span><span class="s1">&#39;WA()&#39;</span><span class="p">])</span>
-        <span class="n">data_sc_csf_ratio</span> <span class="o">=</span> <span class="n">data_csf_smoothed</span> <span class="o">/</span> <span class="n">data_sc_smoothed</span>
-        <span class="n">local_min</span><span class="p">,</span> <span class="n">local_max</span> <span class="o">=</span> <span class="n">data_sc_csf_ratio</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">data_sc_csf_ratio</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">local_min</span> <span class="o">&lt;</span> <span class="n">global_min</span><span class="p">:</span>
-            <span class="n">global_min</span> <span class="o">=</span> <span class="n">local_min</span>
-        <span class="k">if</span> <span class="n">local_max</span> <span class="o">&gt;</span> <span class="n">global_max</span><span class="p">:</span>
-            <span class="n">global_max</span> <span class="o">=</span> <span class="n">local_max</span>
-
 <span class="c1"># Iterate over each subject and create a subplot</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">subject</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">subjects</span><span class="p">):</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
@@ -614,9 +595,6 @@ repo2data<span class="w"> </span>-r<span class="w"> </span>../binder/data_requir
         <span class="n">secax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">label_positions</span><span class="p">)</span>
         <span class="n">secax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">vertebral_levels</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">font_size</span><span class="o">-</span><span class="mi">4</span><span class="p">)</span>
         <span class="n">secax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Hide tick marks</span>
-
-    <span class="c1"># Set y-axis to the same scale for all panels</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">global_min</span><span class="p">,</span> <span class="n">global_max</span><span class="p">)</span>
 
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">custom_xticks</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="s1">&#39;&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">custom_xticks</span><span class="p">))</span>
@@ -838,25 +816,6 @@ repo2data<span class="w"> </span>-r<span class="w"> </span>../binder/data_requir
 <span class="c1"># Data storage for Plotly</span>
 <span class="n">b1_data_plotly</span> <span class="o">=</span> <span class="p">{}</span>
 
-<span class="c1"># Initialize variables to find global min and max values</span>
-<span class="n">global_min</span><span class="p">,</span> <span class="n">global_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
-
-<span class="c1"># First loop: find global min and max across all subjects and shim modes</span>
-<span class="k">for</span> <span class="n">subject</span> <span class="ow">in</span> <span class="n">subjects</span><span class="p">:</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_data</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="s2">&quot;fmap&quot;</span><span class="p">))</span>
-    
-    <span class="k">for</span> <span class="n">shim_mode</span> <span class="ow">in</span> <span class="n">shim_modes</span><span class="p">:</span>
-        <span class="n">file_csv</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_results</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">subject</span><span class="si">}</span><span class="s2">_TB1map_</span><span class="si">{</span><span class="n">shim_mode</span><span class="si">}</span><span class="s2">.csv&quot;</span><span class="p">)</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_csv</span><span class="p">)</span>
-        <span class="n">wa_data</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;WA()&#39;</span><span class="p">]</span>
-        
-        <span class="c1"># Check global min and max</span>
-        <span class="n">local_min</span><span class="p">,</span> <span class="n">local_max</span> <span class="o">=</span> <span class="n">wa_data</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">wa_data</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">local_min</span> <span class="o">&lt;</span> <span class="n">global_min</span><span class="p">:</span>
-            <span class="n">global_min</span> <span class="o">=</span> <span class="n">local_min</span>
-        <span class="k">if</span> <span class="n">local_max</span> <span class="o">&gt;</span> <span class="n">global_max</span><span class="p">:</span>
-            <span class="n">global_max</span> <span class="o">=</span> <span class="n">local_max</span>
-
 <span class="c1"># Iterate over each subject and create a subplot</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">subject</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">subjects</span><span class="p">):</span>
     
@@ -891,11 +850,11 @@ repo2data<span class="w"> </span>-r<span class="w"> </span>../binder/data_requir
             <span class="k">for</span> <span class="n">resampled_data</span> <span class="ow">in</span> <span class="n">method_data</span><span class="p">:</span>
                 <span class="n">b1_data_plotly</span><span class="p">[</span><span class="n">subject</span><span class="p">][</span><span class="n">shim_mode</span><span class="p">]</span><span class="o">=</span><span class="n">resampled_data</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="n">resampled_data</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">shim_mode</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="n">line_width</span><span class="p">)</span>
-
             <span class="c1"># Compute stats on the non-resampled data (to avoid interpolation errors)</span>
             <span class="n">mean_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">wa_data</span><span class="p">)</span>
             <span class="n">sd_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">wa_data</span><span class="p">)</span>
-            <span class="n">data_stats</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">subject</span><span class="p">,</span> <span class="n">shim_mode</span><span class="p">,</span> <span class="n">mean_data</span><span class="p">,</span> <span class="n">sd_data</span><span class="p">])</span>
+            <span class="n">CV_data</span><span class="o">=</span> <span class="p">(</span><span class="n">sd_data</span><span class="o">/</span><span class="n">mean_data</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span>
+            <span class="n">data_stats</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">subject</span><span class="p">,</span> <span class="n">shim_mode</span><span class="p">,</span> <span class="n">mean_data</span><span class="p">,</span> <span class="n">sd_data</span><span class="p">,</span> <span class="n">CV_data</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">b1_data_plotly</span><span class="p">[</span><span class="n">subject</span><span class="p">][</span><span class="n">shim_mode</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span>
 
@@ -906,9 +865,6 @@ repo2data<span class="w"> </span>-r<span class="w"> </span>../binder/data_requir
         <span class="n">secax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">label_positions</span><span class="p">)</span>
         <span class="n">secax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">vertebral_levels</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">font_size</span><span class="o">-</span><span class="mi">4</span><span class="p">)</span>
         <span class="n">secax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Hide tick marks</span>
-
-    <span class="c1"># Set y-axis to the same scale for all panels</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">global_min</span><span class="p">,</span> <span class="n">global_max</span><span class="p">)</span>
 
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">custom_xticks</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="s1">&#39;&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">custom_xticks</span><span class="p">))</span>
@@ -937,19 +893,20 @@ repo2data<span class="w"> </span>-r<span class="w"> </span>../binder/data_requir
 <div class="cell tag_hide_input tag_report_output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert to DataFrame and save to CSV</span>
-<span class="n">df_stats</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_stats</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Subject&#39;</span><span class="p">,</span> <span class="s1">&#39;Shim_Mode&#39;</span><span class="p">,</span> <span class="s1">&#39;Average&#39;</span><span class="p">,</span> <span class="s1">&#39;Standard_Deviation&#39;</span><span class="p">])</span>
+<span class="n">df_stats</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_stats</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Subject&#39;</span><span class="p">,</span> <span class="s1">&#39;Shim_Mode&#39;</span><span class="p">,</span> <span class="s1">&#39;Average&#39;</span><span class="p">,</span> <span class="s1">&#39;Standard_Deviation&#39;</span><span class="p">,</span> <span class="s1">&#39;CV&#39;</span><span class="p">])</span>
 <span class="n">df_stats</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_results</span><span class="p">,</span> <span class="s1">&#39;stats_b1plus.csv&#39;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 <span class="c1"># Compute statistics across subjects</span>
-<span class="n">grouped_means</span> <span class="o">=</span> <span class="n">df_stats</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Shim_Mode&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s1">&#39;Average&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">],</span> <span class="s1">&#39;Standard_Deviation&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">]})</span>
+<span class="n">grouped_means</span> <span class="o">=</span> <span class="n">df_stats</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Shim_Mode&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s1">&#39;Average&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">],</span> <span class="s1">&#39;Standard_Deviation&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">],</span><span class="s1">&#39;CV&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">]})</span>
 
 <span class="c1"># Format mean ± standard deviation</span>
 <span class="n">grouped_means</span><span class="p">[</span><span class="s1">&#39;Average_formatted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">grouped_means</span><span class="p">[</span><span class="s1">&#39;Average&#39;</span><span class="p">][</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; ± &quot;</span> <span class="o">+</span> <span class="n">grouped_means</span><span class="p">[</span><span class="s1">&#39;Average&#39;</span><span class="p">][</span><span class="s1">&#39;std&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">)</span>
 <span class="n">grouped_means</span><span class="p">[</span><span class="s1">&#39;Standard_Deviation_formatted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">grouped_means</span><span class="p">[</span><span class="s1">&#39;Standard_Deviation&#39;</span><span class="p">][</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; ± &quot;</span> <span class="o">+</span> <span class="n">grouped_means</span><span class="p">[</span><span class="s1">&#39;Standard_Deviation&#39;</span><span class="p">][</span><span class="s1">&#39;std&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">)</span>
+<span class="n">grouped_means</span><span class="p">[</span><span class="s1">&#39;CV_formatted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">grouped_means</span><span class="p">[</span><span class="s1">&#39;CV&#39;</span><span class="p">][</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; ± &quot;</span> <span class="o">+</span> <span class="n">grouped_means</span><span class="p">[</span><span class="s1">&#39;CV&#39;</span><span class="p">][</span><span class="s1">&#39;std&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">)</span>
 
 <span class="c1"># Drop multi-level index and only keep formatted columns</span>
-<span class="n">grouped_means</span> <span class="o">=</span> <span class="n">grouped_means</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Average&#39;</span><span class="p">,</span> <span class="s1">&#39;Standard_Deviation&#39;</span><span class="p">])</span>
-<span class="n">grouped_means</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Average&#39;</span><span class="p">,</span> <span class="s1">&#39;Standard_Deviation&#39;</span><span class="p">]</span>  <span class="c1"># Rename columns for clarity</span>
+<span class="n">grouped_means</span> <span class="o">=</span> <span class="n">grouped_means</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Average&#39;</span><span class="p">,</span> <span class="s1">&#39;Standard_Deviation&#39;</span><span class="p">,</span><span class="s1">&#39;CV&#39;</span><span class="p">])</span>
+<span class="n">grouped_means</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Average&#39;</span><span class="p">,</span> <span class="s1">&#39;Standard_Deviation&#39;</span><span class="p">,</span><span class="s1">&#39;CV&#39;</span><span class="p">]</span>  <span class="c1"># Rename columns for clarity</span>
 <span class="n">grouped_means</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_results</span><span class="p">,</span> <span class="s1">&#39;stats_b1plus_average_across_subjects.csv&#39;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 <span class="c1"># Perform Repeated Measures ANOVA</span>
@@ -1129,6 +1086,62 @@ repo2data<span class="w"> </span>-r<span class="w"> </span>../binder/data_requir
 </div>
 </div>
 <p><b>Figure 2.</b> B1+ efficiency for one participant (sub-05) across all seven RF shimming conditions. The top left panel shows the tfl_b1map magnitude image with an overlay of the mask that was used to perform RF shimming. Text inserts show the mean (in nT/V) and CoV (in %) of B1+ efficiency along the spinal cord between C3 and T2.</p>
+<p>Create GRE signal intensity figure for one subject (sub-05)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="c1">#Select subject to show</span>
+<span class="n">subject</span> <span class="o">=</span> <span class="s1">&#39;sub-05&#39;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_data</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="s2">&quot;anat&quot;</span><span class="p">))</span>
+
+<span class="c1">#Defining crop limits for resulting figure</span>
+<span class="n">ymin</span> <span class="o">=</span> <span class="mi">60</span>
+<span class="n">ymax</span> <span class="o">=</span> <span class="mi">340</span>
+
+<span class="c1">#Defining aspect ratio necessary for anatominally accurate figure </span>
+<span class="n">pixelaspect</span><span class="o">=</span><span class="p">(</span><span class="n">ymax</span><span class="o">-</span><span class="n">ymin</span><span class="p">)</span><span class="o">/</span><span class="mi">70</span> <span class="c1">#70 slices</span>
+<span class="n">anatomyaspect</span><span class="o">=</span><span class="p">((</span><span class="n">ymax</span><span class="o">-</span><span class="n">ymin</span><span class="p">)</span><span class="o">*</span><span class="mf">0.6</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">70</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span> <span class="c1">#in-plane resolution of 0.6mm, slice resolution of 3 mm</span>
+<span class="n">aspectcorrection</span><span class="o">=</span><span class="n">pixelaspect</span><span class="o">/</span><span class="n">anatomyaspect</span>
+
+<span class="c1">#Load CP for central slices</span>
+<span class="n">CP_GRE</span><span class="o">=</span><span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">subject</span><span class="si">}</span><span class="s2">_acq-CP_T2starw.nii.gz&quot;</span><span class="p">)</span>
+
+<span class="c1">#Defining mask based on the magnitude image intensity threshold</span>
+<span class="n">cslice</span><span class="o">=</span><span class="n">CP_GRE</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span><span class="mi">15</span> <span class="c1">#shows the SC seg best</span>
+
+<span class="c1">#Defining dynamic range</span>
+<span class="n">dynmin</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">dynmax</span> <span class="o">=</span> <span class="mi">400</span>
+
+<span class="c1">#Create a figure with multiple subplots</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">font_size</span> <span class="o">=</span> <span class="mi">14</span>
+<span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="c1">#Plot each GRE image, layout corresponding to the B1+ map figure </span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">shim_mode</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">shim_modes</span><span class="p">):</span>
+<span class="c1"># Load data</span>
+    <span class="n">GRE</span><span class="o">=</span><span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">subject</span><span class="si">}</span><span class="s2">_acq-</span><span class="si">{</span><span class="n">shim_mode</span><span class="si">}</span><span class="s2">_T2starw.nii.gz&quot;</span><span class="p">)</span>
+    <span class="n">GRE</span><span class="o">=</span><span class="n">GRE</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">()[</span><span class="n">cslice</span><span class="p">,</span> <span class="n">ymin</span><span class="p">:</span><span class="n">ymax</span><span class="p">,:]</span>
+    <span class="c1">#Flipping right-left to have the same facig as on the B1+ maps</span>
+    <span class="n">GRE</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">GRE</span><span class="p">)</span>
+    <span class="c1"># Plot</span>
+    <span class="n">splot</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">im</span> <span class="o">=</span> <span class="n">splot</span><span class="o">.</span><span class="n">imshow</span><span class="p">((</span><span class="n">GRE</span><span class="o">.</span><span class="n">T</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span><span class="n">vmin</span><span class="o">=</span><span class="n">dynmin</span><span class="p">,</span><span class="n">vmax</span><span class="o">=</span><span class="n">dynmax</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="n">aspectcorrection</span><span class="p">)</span><span class="c1">#, interpolation=&#39;spline36&#39;)</span>
+    <span class="n">splot</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">shim_mode</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">font_size</span><span class="p">)</span>
+    <span class="n">splot</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+<span class="c1"># Delete unneeded first subplot</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">wspace</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Figure 3.</strong> GRE magnitude signal intensity for one participant (sub-05) across RF shimming conditions. The colomap adjustment is the same across all images. The differences in B1+ efficiency along the cord between the various RF shimming conditions results in signal intensity differences. Visual contrast between CSF and SC is affected, with ‘volume’ showing poor visual contrast compared to e.g. the ‘CP’ or ‘SAReff’ modes.</p>
 <div class="cell tag_hide_input tag_remove_output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
@@ -1301,6 +1314,7 @@ repo2data<span class="w"> </span>-r<span class="w"> </span>../binder/data_requir
             <span class="n">showgrid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">gridcolor</span><span class="o">=</span><span class="s1">&#39;rgb(169,169,169)&#39;</span><span class="p">,</span>
             <span class="n">title_font_family</span><span class="o">=</span><span class="s2">&quot;Times New Roman&quot;</span><span class="p">,</span>
+            <span class="nb">range</span><span class="o">=</span><span class="p">[</span><span class="mf">1.05</span><span class="p">,</span><span class="mf">1.4</span><span class="p">],</span>
             <span class="n">title_font_size</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
             <span class="n">linecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>
             <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
@@ -1336,6 +1350,7 @@ repo2data<span class="w"> </span>-r<span class="w"> </span>../binder/data_requir
             <span class="s1">&#39;text&#39;</span><span class="p">:</span><span class="s1">&#39;&lt;b&gt;B&lt;sub&gt;1&lt;/sub&gt;&lt;sup&gt;+&lt;/sup&gt; efficiency [nT/V]&lt;/b&gt;&#39;</span><span class="p">,</span>
             <span class="s1">&#39;standoff&#39;</span><span class="p">:</span><span class="mi">0</span>
             <span class="p">},</span>
+        <span class="nb">range</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">35</span><span class="p">],</span>
         <span class="n">showgrid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">gridcolor</span><span class="o">=</span><span class="s1">&#39;rgb(169,169,169)&#39;</span><span class="p">,</span>
         <span class="n">title_font_family</span><span class="o">=</span><span class="s2">&quot;Times New Roman&quot;</span><span class="p">,</span>
@@ -1408,7 +1423,7 @@ repo2data<span class="w"> </span>-r<span class="w"> </span>../binder/data_requir
 </div>
 <div class="cell tag_remove_input tag_report_output docutils container">
 </div>
-<p><b>Figure 3.</b> B<sub>1</sub><sup>+</sup> efficiency (A) and CSF/Cord signal ratio from the GRE scan (B) across subjects and across different RF shimming conditions. Data were measured in the spinal cord from C3 to T2 vertebral levels. To match the x-ticks across subjects, the C2-C3 and the T2-T3 intervertebral discs of each subject were aligned with that of the PAM50 template  <span id="id7">[<a class="reference internal" href="#id17" title="Benjamin De Leener, Vladimir S. Fonov, D. Louis Collins, Virginie Callot, Nikola Stikov, and Julien Cohen-Adad. Pam50: unbiased multimodal template of the brainstem and spinal cord aligned with the icbm152 space. NeuroImage, 165:170-179, 2018. doi:10.1016/j.neuroimage.2017.10.041.">De Leener <em>et al.</em>, 2018</a>]</span>, and the curves were linearly scaled.</p>
+<p><b>Figure 4.</b> B<sub>1</sub><sup>+</sup> efficiency (A) and CSF/Cord signal ratio from the GRE scan (B) across subjects and across different RF shimming conditions. Data were measured in the spinal cord from C3 to T2 vertebral levels. To match the x-ticks across subjects, the C2-C3 and the T2-T3 intervertebral discs of each subject were aligned with that of the PAM50 template  <span id="id7">[<a class="reference internal" href="#id17" title="Benjamin De Leener, Vladimir S. Fonov, D. Louis Collins, Virginie Callot, Nikola Stikov, and Julien Cohen-Adad. Pam50: unbiased multimodal template of the brainstem and spinal cord aligned with the icbm152 space. NeuroImage, 165:170-179, 2018. doi:10.1016/j.neuroimage.2017.10.041.">De Leener <em>et al.</em>, 2018</a>]</span>, and the curves were linearly scaled.</p>
 </div>
 <div class="tex2jax_ignore mathjax_ignore section" id="references">
 <h1>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h1>
